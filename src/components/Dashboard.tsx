@@ -13,8 +13,10 @@ import {
   Plus,
   TrendingUp,
   AlertTriangle,
-  CheckCircle
+  CheckCircle,
+  LogOut
 } from "lucide-react";
+import { useAuth } from "@/hooks/useAuth";
 import heroImage from "@/assets/healthcare-hero.jpg";
 
 interface VitalReading {
@@ -37,6 +39,7 @@ interface HealthWorker {
 }
 
 const Dashboard = () => {
+  const { profile, signOut } = useAuth();
   const [vitals] = useState<VitalReading[]>([
     {
       id: "1",
@@ -114,6 +117,29 @@ const Dashboard = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      {/* Header */}
+      <header className="bg-white border-b shadow-sm">
+        <div className="container mx-auto px-6 py-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center gap-2">
+              <Heart className="h-8 w-8 text-primary" />
+              <h1 className="text-2xl font-bold text-primary">Aarogya Sahayak</h1>
+            </div>
+            <div className="flex items-center gap-3">
+              <div className="text-right">
+                <p className="text-sm font-medium">{profile?.full_name || 'User'}</p>
+                <Badge variant="outline" className="text-xs">
+                  {profile?.role?.replace('_', ' ').toUpperCase()}
+                </Badge>
+              </div>
+              <Button variant="ghost" size="sm" onClick={signOut}>
+                <LogOut className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+        </div>
+      </header>
+
       {/* Hero Section */}
       <div className="relative bg-gradient-hero text-white overflow-hidden">
         <div className="absolute inset-0 bg-black/20"></div>
